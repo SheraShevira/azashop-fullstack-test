@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -37,7 +38,7 @@ class CustomerTest extends TestCase
             ->assertJsonPath('data.birth_date', '1995-02-10')
             ->json('data.id');
 
-        $this->assertTrue(\Illuminate\Support\Str::isUuid($id));
+        $this->assertTrue(Str::isUuid($id));
 
         $this->putJson("/api/customers/{$id}", $this->payload(['customer_name' => 'Budi S.', 'phone' => null]))
             ->assertOk()

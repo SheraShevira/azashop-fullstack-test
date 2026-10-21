@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             $this->seedOrders($admin, $products, $customers);
 
             // Leave a few products almost sold out so the dashboard "low stock" panel has content.
-            $products->take(-3)->each(fn (Product $p, int $i) => $p->update(['stock' => $i + 1]));
+            $products->take(-3)->values()->each(fn (Product $p, int $i) => $p->update(['stock' => $i + 1]));
         });
     }
 
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         $counters = [];
 
         foreach (range(1, 30) as $n) {
-            $date = now()->subDays(30 - $n)->setTime(random_int(8, 20), random_int(0, 59), random_int(0, 59));
+            $date = now()->subDays(31 - $n)->setTime(random_int(8, 20), random_int(0, 59), random_int(0, 59));
             $key = $date->format('Ymd');
             $counters[$key] = ($counters[$key] ?? 0) + 1;
 
